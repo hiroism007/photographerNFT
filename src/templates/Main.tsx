@@ -5,9 +5,8 @@ import { Container, Box, Backdrop, CircularProgress } from '@mui/material'
 import * as ImageList from '~/components/ImageList'
 
 type Props = {
-    address: string | undefined
+    address: string | null
     supply: string
-    onClick: (type: 'RED' | 'BLUE') => () => void
     loading: boolean
 }
 

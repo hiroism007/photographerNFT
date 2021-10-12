@@ -5,16 +5,19 @@ import * as History from 'history'
 import Route from './route'
 import * as Store from './store'
 import * as Toast from './provider/Toast'
+import { MetaMaskProvider } from '~/provider/MetaMask'
 
 export const history = History.createBrowserHistory()
 const store = Store.createStore(history)
 
 const App = () => (
-  <ReactRedux.Provider store={store}>
+    <ReactRedux.Provider store={store}>
         <Toast.Provider>
-          <Route history={history} />
+            <MetaMaskProvider>
+                <Route history={history} />
+            </MetaMaskProvider>
         </Toast.Provider>
-  </ReactRedux.Provider>
+    </ReactRedux.Provider>
 )
 
 render(<App />, document.getElementById('root'))

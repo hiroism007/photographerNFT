@@ -20,10 +20,10 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
-interface ChooseYourRealityInterface extends ethers.utils.Interface {
+interface LimitedPhotographiesInterface extends ethers.utils.Interface {
   functions: {
     "MAX_MINT_COUNT_PER_ADDRESS()": FunctionFragment;
-    "MAX_PILLS_COUNT()": FunctionFragment;
+    "MAX_SUPPLY()": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "baseURI()": FunctionFragment;
@@ -35,13 +35,12 @@ interface ChooseYourRealityInterface extends ethers.utils.Interface {
     "osRegistryAddress()": FunctionFragment;
     "owner()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
-    "pills(uint256)": FunctionFragment;
-    "redeem(address,tuple,string)": FunctionFragment;
+    "photos(uint256)": FunctionFragment;
+    "redeem(address,tuple)": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
     "setBaseURI(string)": FunctionFragment;
     "setContractURI(string)": FunctionFragment;
-    "setMessage(uint256,string)": FunctionFragment;
     "setOSRegistryAddress(address)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
@@ -59,7 +58,7 @@ interface ChooseYourRealityInterface extends ethers.utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "MAX_PILLS_COUNT",
+    functionFragment: "MAX_SUPPLY",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -94,20 +93,21 @@ interface ChooseYourRealityInterface extends ethers.utils.Interface {
     functionFragment: "ownerOf",
     values: [BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: "pills", values: [BigNumberish]): string;
+  encodeFunctionData(
+    functionFragment: "photos",
+    values: [BigNumberish]
+  ): string;
   encodeFunctionData(
     functionFragment: "redeem",
     values: [
       string,
       {
         minPrice: BigNumberish;
-        side: string;
         rarity: string;
         message: string;
         challenge: string;
         signature: BytesLike;
-      },
-      string
+      }
     ]
   ): string;
   encodeFunctionData(
@@ -122,10 +122,6 @@ interface ChooseYourRealityInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "setContractURI",
     values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setMessage",
-    values: [BigNumberish, string]
   ): string;
   encodeFunctionData(
     functionFragment: "setOSRegistryAddress",
@@ -166,10 +162,7 @@ interface ChooseYourRealityInterface extends ethers.utils.Interface {
     functionFragment: "MAX_MINT_COUNT_PER_ADDRESS",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "MAX_PILLS_COUNT",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "MAX_SUPPLY", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "baseURI", data: BytesLike): Result;
@@ -193,7 +186,7 @@ interface ChooseYourRealityInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "pills", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "photos", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "redeem", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "safeTransferFrom",
@@ -208,7 +201,6 @@ interface ChooseYourRealityInterface extends ethers.utils.Interface {
     functionFragment: "setContractURI",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "setMessage", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setOSRegistryAddress",
     data: BytesLike
@@ -260,7 +252,7 @@ interface ChooseYourRealityInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "Widthdrawn"): EventFragment;
 }
 
-export class ChooseYourReality extends BaseContract {
+export class LimitedPhotographies extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -301,12 +293,12 @@ export class ChooseYourReality extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: ChooseYourRealityInterface;
+  interface: LimitedPhotographiesInterface;
 
   functions: {
     MAX_MINT_COUNT_PER_ADDRESS(overrides?: CallOverrides): Promise<[number]>;
 
-    MAX_PILLS_COUNT(overrides?: CallOverrides): Promise<[number]>;
+    MAX_SUPPLY(overrides?: CallOverrides): Promise<[number]>;
 
     approve(
       to: string,
@@ -344,7 +336,7 @@ export class ChooseYourReality extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
-    pills(
+    photos(
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<
@@ -359,13 +351,11 @@ export class ChooseYourReality extends BaseContract {
       redeemer: string,
       voucher: {
         minPrice: BigNumberish;
-        side: string;
         rarity: string;
         message: string;
         challenge: string;
         signature: BytesLike;
       },
-      side: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -397,12 +387,6 @@ export class ChooseYourReality extends BaseContract {
 
     setContractURI(
       contractUri: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    setMessage(
-      tokenId: BigNumberish,
-      message: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -455,7 +439,7 @@ export class ChooseYourReality extends BaseContract {
 
   MAX_MINT_COUNT_PER_ADDRESS(overrides?: CallOverrides): Promise<number>;
 
-  MAX_PILLS_COUNT(overrides?: CallOverrides): Promise<number>;
+  MAX_SUPPLY(overrides?: CallOverrides): Promise<number>;
 
   approve(
     to: string,
@@ -490,7 +474,7 @@ export class ChooseYourReality extends BaseContract {
 
   ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
-  pills(
+  photos(
     arg0: BigNumberish,
     overrides?: CallOverrides
   ): Promise<
@@ -501,13 +485,11 @@ export class ChooseYourReality extends BaseContract {
     redeemer: string,
     voucher: {
       minPrice: BigNumberish;
-      side: string;
       rarity: string;
       message: string;
       challenge: string;
       signature: BytesLike;
     },
-    side: string,
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -539,12 +521,6 @@ export class ChooseYourReality extends BaseContract {
 
   setContractURI(
     contractUri: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  setMessage(
-    tokenId: BigNumberish,
-    message: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -591,7 +567,7 @@ export class ChooseYourReality extends BaseContract {
   callStatic: {
     MAX_MINT_COUNT_PER_ADDRESS(overrides?: CallOverrides): Promise<number>;
 
-    MAX_PILLS_COUNT(overrides?: CallOverrides): Promise<number>;
+    MAX_SUPPLY(overrides?: CallOverrides): Promise<number>;
 
     approve(
       to: string,
@@ -626,7 +602,7 @@ export class ChooseYourReality extends BaseContract {
 
     ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
-    pills(
+    photos(
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<
@@ -641,13 +617,11 @@ export class ChooseYourReality extends BaseContract {
       redeemer: string,
       voucher: {
         minPrice: BigNumberish;
-        side: string;
         rarity: string;
         message: string;
         challenge: string;
         signature: BytesLike;
       },
-      side: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -676,12 +650,6 @@ export class ChooseYourReality extends BaseContract {
 
     setContractURI(
       contractUri: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setMessage(
-      tokenId: BigNumberish,
-      message: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -778,7 +746,7 @@ export class ChooseYourReality extends BaseContract {
   estimateGas: {
     MAX_MINT_COUNT_PER_ADDRESS(overrides?: CallOverrides): Promise<BigNumber>;
 
-    MAX_PILLS_COUNT(overrides?: CallOverrides): Promise<BigNumber>;
+    MAX_SUPPLY(overrides?: CallOverrides): Promise<BigNumber>;
 
     approve(
       to: string,
@@ -816,19 +784,17 @@ export class ChooseYourReality extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    pills(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+    photos(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
     redeem(
       redeemer: string,
       voucher: {
         minPrice: BigNumberish;
-        side: string;
         rarity: string;
         message: string;
         challenge: string;
         signature: BytesLike;
       },
-      side: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -860,12 +826,6 @@ export class ChooseYourReality extends BaseContract {
 
     setContractURI(
       contractUri: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    setMessage(
-      tokenId: BigNumberish,
-      message: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -921,7 +881,7 @@ export class ChooseYourReality extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    MAX_PILLS_COUNT(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    MAX_SUPPLY(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     approve(
       to: string,
@@ -962,7 +922,7 @@ export class ChooseYourReality extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    pills(
+    photos(
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -971,13 +931,11 @@ export class ChooseYourReality extends BaseContract {
       redeemer: string,
       voucher: {
         minPrice: BigNumberish;
-        side: string;
         rarity: string;
         message: string;
         challenge: string;
         signature: BytesLike;
       },
-      side: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1009,12 +967,6 @@ export class ChooseYourReality extends BaseContract {
 
     setContractURI(
       contractUri: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setMessage(
-      tokenId: BigNumberish,
-      message: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

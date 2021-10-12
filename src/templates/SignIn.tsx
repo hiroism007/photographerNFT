@@ -12,7 +12,7 @@ type Props = {
 
 export const Component = (props: Props) => {
     return (
-        <Layout.Main>
+        <Layout.Main address={null}>
             <WhiteBox container direction="column" alignItems="center">
                 <ContainerItems item>
                     <Title>LIMITED COLLECTION</Title>

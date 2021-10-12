@@ -5,7 +5,7 @@ import * as Header from '../components/Header'
 import { Grid } from '@mui/material'
 
 type Props = {
-    address?: string
+    address: string | null
     children: React.ReactNode
 }
 
