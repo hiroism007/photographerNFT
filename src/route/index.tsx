@@ -14,6 +14,9 @@ export const Route = (props: Props): React.ReactElement => (
             <ReactRouter.Route exact path="/">
                 <Main.Component />
             </ReactRouter.Route>
+            <ReactRouter.Route exact path="/detail">
+                <Main.Component />
+            </ReactRouter.Route>
         </ReactRouter.Switch>
     </ConnectedRouter.ConnectedRouter>
 )

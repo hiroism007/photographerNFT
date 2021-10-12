@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { styled } from '@mui/material/styles'
-import logo from '../assets/empty.svg'
+import logo from '../assets/favcon.svg'
 
 type Props = {
     address?: string

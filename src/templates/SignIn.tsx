@@ -13,13 +13,10 @@ type Props = {
 export const Component = (props: Props) => {
     return (
         <Layout.Main>
-            <WhiteBox
-                container
-                direction="column"
-                alignItems="center"
-            >
+            <WhiteBox container direction="column" alignItems="center">
                 <ContainerItems item>
-                    <Title>LIMITED EDITION -禅-</Title>
+                    <Title>LIMITED COLLECTION</Title>
+                    <TitleBig>空</TitleBig>
                     <ButtonWrapper>
                         <Button.Component
                             onClick={props.onClickConnect}
@@ -30,7 +27,9 @@ export const Component = (props: Props) => {
                     </ButtonWrapper>
                     <Sub2Title>An experimental project</Sub2Title>
                     <Sub2Title>Only 42 editions are available</Sub2Title>
-                    <Sub2Title>Only holder can request me to print original artwork</Sub2Title>
+                    <Sub2Title>
+                        Only holder can request original artworks
+                    </Sub2Title>
                     <Sub2Title>
                         <a
                             href="https://etherscan.io/address/0x1f1767e1bbfdf54e1443bd41ffabe41e0953ac6d"
@@ -65,6 +64,16 @@ const ContainerItems = styled(Grid)``
 const Title = styled('div')`
     font-weight: bold;
     font-size: 34px;
+    line-height: 34px;
+    margin-bottom: 142px;
+    text-align: center;
+    font-family: Libre Baskerville, serif;
+    color: rgb(121, 121, 121);
+`
+
+const TitleBig = styled('div')`
+    font-weight: bold;
+    font-size: 72px;
     line-height: 34px;
     margin-bottom: 142px;
     text-align: center;

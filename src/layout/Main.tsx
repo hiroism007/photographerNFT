@@ -14,7 +14,7 @@ export const Component = (props: Props) => {
         <BaseLayout.Component>
             <Header.Component address={props?.address} />
             <Grid container justifyContent="center">
-                <Contents item xs={8}>
+                <Contents item xs={12}>
                     {props.children}
                 </Contents>
             </Grid>
@@ -27,5 +27,5 @@ export const Component = (props: Props) => {
 //------------------------------------------------------------------------------
 
 const Contents = styled(Grid)`
-    padding-top: 200px;
+    padding-top: 100px;
 `

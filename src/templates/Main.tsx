@@ -1,9 +1,8 @@
 import * as React from 'react'
-import Red from '~/assets/red-pill.jpg'
-import Blue from '~/assets/blue-pill.jpg'
 import * as Layout from '~/layout'
 import { styled } from '@mui/material/styles'
-import { Container, Box, Backdrop,IconButton,CircularProgress } from '@mui/material'
+import { Container, Box, Backdrop, CircularProgress } from '@mui/material'
+import * as ImageList from '~/components/ImageList'
 
 type Props = {
     address: string | undefined
@@ -15,30 +14,14 @@ type Props = {
 export const Component = (props: Props) => {
     return (
         <Layout.Main address={props.address}>
-            <WhiteBox maxWidth={'sm'}>
+            <WhiteBox>
                 <ContainerItems m={2}>
                     <StyledBackDrop open={props.loading}>
                         <CircularProgress color="inherit" />
                     </StyledBackDrop>
-                    <Title>CHOOSE YOUR REALITY</Title>
-                    <Box justifyContent={'center'} display="flex">
-                        <Box m={4} onClick={props.onClick('RED')}>
-                            <IconButton>
-                                <Logo src={Red} height="200px" />
-                            </IconButton>
-                        </Box>
-                        <Box m={4} onClick={props.onClick('BLUE')}>
-                            <IconButton>
-                                <Logo src={Blue} height="200px" />
-                            </IconButton>
-                        </Box>
-                    </Box>
-                    <SubTitle>{props.supply}/10000</SubTitle>
-
-                    <Sub2Title>
-                        Most of them are free mint. Some of them are not
-                    </Sub2Title>
-                    <Sub2Title>An experimental project</Sub2Title>
+                    <Title>LIMITED COLLECTION -空-</Title>
+                    <SubTitle>{props.supply}/42</SubTitle>
+                    <ImageList.default></ImageList.default>
                     <Sub2Title>
                         <a
                             href="https://etherscan.io/address/0x1f1767e1bbfdf54e1443bd41ffabe41e0953ac6d"
@@ -71,7 +54,7 @@ const ContainerItems = styled(Box)``
 
 const StyledBackDrop = styled(Backdrop)`
     z-index: 1001;
-    color: '#fff'; 
+    color: '#fff';
 `
 
 const Title = styled('div')`
@@ -89,7 +72,7 @@ const SubTitle = styled('div')`
     font-size: 20px;
     line-height: 20px;
     margin-top: 20px;
-    margin-bottom: 200px;
+    margin-bottom: 20px;
     text-align: center;
     font-family: Libre Baskerville, serif;
     color: rgb(121, 121, 121);
@@ -104,5 +87,3 @@ const Sub2Title = styled('div')`
     font-family: Libre Baskerville, serif;
     color: rgb(121, 121, 121);
 `
-
-const Logo = styled('img')``
